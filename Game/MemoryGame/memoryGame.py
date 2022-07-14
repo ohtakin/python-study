@@ -1,4 +1,3 @@
-from lib2to3.pygram import python_grammar_no_print_statement
 import pygame
 from random import *
 
@@ -24,6 +23,7 @@ start_ticks = None
 start = False
 hidden = False
 
+
 def setup(level):
     global display_time
     display_time = 5 - (level // 3)
@@ -33,6 +33,7 @@ def setup(level):
     number_count = min(number_count, 20)
 
     shuffle_grid(number_count)
+
 
 def shuffle_grid(number_count):
     rows = 5
@@ -53,19 +54,23 @@ def shuffle_grid(number_count):
         if grid[row_idx][col_idx] == 0:
             grid[row_idx][col_idx] = number
             number += 1
-            center_x = screen_left_margin + (col_idx * cell_size) + (cell_size / 2)
-            center_y = screen_top_margin + (row_idx * cell_size) + (cell_size / 2)
+            center_x = screen_left_margin + \
+                (col_idx * cell_size) + (cell_size / 2)
+            center_y = screen_top_margin + \
+                (row_idx * cell_size) + (cell_size / 2)
             button = pygame.Rect(0, 0, button_size, button_size)
             button.center = (center_x, center_y)
             number_buttons.append(button)
 
     print(grid)
 
+
 def display_start_screen():
     pygame.draw.circle(screen, WHITE, start_button.center, 60, 5)
     msg = game_font.render(f"{current_level}", True, WHITE)
     msg_rect = msg.get_rect(center=start_button.center)
     screen.blit(msg, msg_rect)
+
 
 def display_game_screen():
     global hidden
@@ -82,6 +87,7 @@ def display_game_screen():
             text_rect = cell_text.get_rect(center=rect.center)
             screen.blit(cell_text, text_rect)
 
+
 def game_over():
     global running
     msg = game_font.render(f"Your level is {current_level}", True, WHITE)
@@ -89,6 +95,7 @@ def game_over():
     screen.fill(BLACK)
     screen.blit(msg, msg_rect)
     running = False
+
 
 def check_number_button(pos):
     global start, hidden, current_level
@@ -106,7 +113,7 @@ def check_number_button(pos):
     if len(number_buttons) == 0:
         start = False
         hidden = False
-        current_level +=1
+        current_level += 1
         setup(current_level)
 
 
@@ -117,6 +124,7 @@ def check_buttons(pos):
     elif start_button.collidepoint(pos):
         start = True
         start_ticks = pygame.time.get_ticks()
+
 
 setup(current_level)
 
@@ -133,9 +141,9 @@ while running:
 
     screen.fill(BLACK)
 
-    if start: 
+    if start:
         display_game_screen()
-    else:        
+    else:
         display_start_screen()
 
     if click_pos:
